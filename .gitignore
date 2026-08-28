@@ -1,0 +1,16 @@
+# Per-hub backups, builds, logs, and temporary transfer files
+output/
+
+# Runtime-downloaded SquashFS tools; keep the cache instructions
+cache/*
+!cache/README.txt
+
+# Locally assembled distribution artifacts
+release/
+Sengled-Hub-Reclaim-*.zip
+
+# Runtime firmware download and common editor/OS debris
+*.ebl
+*.tmp
+Thumbs.db
+.DS_Store
