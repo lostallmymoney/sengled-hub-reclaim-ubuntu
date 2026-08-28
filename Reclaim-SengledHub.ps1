@@ -608,7 +608,7 @@ function Confirm-DestructivePlan {
     Write-Host 'This operation will:' -ForegroundColor White
     Write-Host '  * temporarily stop the stock Sengled gateway'
     if ($ForceCoordinatorRequested) {
-        Write-Host '  * FORCE-REFLASH the onboard EM357 with EmberZNet 6.4.1 / EZSP v7' -ForegroundColor Yellow
+        Write-Host '  * force-flash the onboard EM357 with EmberZNet 6.4.1 / EZSP v7 (debug mode)' -ForegroundColor Yellow
     } elseif ($CoordinatorEnabled) {
         Write-Host '  * replace the onboard EM357 application with EmberZNet 6.4.1 / EZSP v7 unless already v7'
     } else {
@@ -623,18 +623,18 @@ function Confirm-DestructivePlan {
     Write-Host 'Do not remove power during a coordinator or Bank2 flash.' -ForegroundColor Yellow
 
     if ($ForceCoordinatorRequested) {
-        $answer = Read-Host "Type REFLASH to confirm the forced coordinator reflash and full reclaim of $HubAddress"
-        if ($answer -cne 'REFLASH') { throw 'Cancelled by user' }
+        Write-Host 'DEBUG MODE: this programs the public EmberZNet 6.4.1 / EZSP v7 image.' -ForegroundColor Yellow
+        Write-Host 'It does not restore Sengled''s original coordinator firmware.' -ForegroundColor Yellow
+        $answer = Read-Host "Type FORCE-COORDINATOR to confirm the debug reflash and full reclaim of $HubAddress"
+        if ($answer -cne 'FORCE-COORDINATOR') { throw 'Cancelled by user' }
         return $true
     }
 
     if ($CoordinatorEnabled) {
-        Write-Host 'Type RECLAIM for the normal run (an existing EZSP v7 coordinator is preserved).' -ForegroundColor DarkGray
-        Write-Host 'Type REFLASH to deliberately reflash the coordinator and test the entire process.' -ForegroundColor Yellow
-        $answer = Read-Host "Choose RECLAIM or REFLASH for $HubAddress"
-        if ($answer -ceq 'RECLAIM') { return $false }
-        if ($answer -ceq 'REFLASH') { return $true }
-        throw 'Cancelled by user'
+        Write-Host 'Type RECLAIM to continue. An existing EZSP v7 coordinator is preserved.' -ForegroundColor DarkGray
+        $answer = Read-Host "Type RECLAIM to continue with $HubAddress"
+        if ($answer -cne 'RECLAIM') { throw 'Cancelled by user' }
+        return $false
     }
 
     $answer = Read-Host "Type RECLAIM to continue with $HubAddress"

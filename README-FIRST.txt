@@ -30,8 +30,8 @@ TO RUN
 4. Enter the Sengled hub IPv4 address when prompted. The tool checks that the
    address is valid and that the hub is reachable on TCP/8686 or TCP/23 before
    continuing.
-5. Read the plan. Type RECLAIM for the normal skip-if-v7 path, or type REFLASH
-   to deliberately reflash the coordinator and test the complete process.
+5. Read the plan. Type RECLAIM to continue. The normal run preserves an
+   existing EZSP v7 coordinator and only flashes the coordinator when needed.
 6. Leave the hub and PC powered until it says RECLAIM COMPLETE. On the tested
    bootloader, the first Bank2 start may require one cold power-cycle. If so,
    the installer gives exact instructions and resumes the health check after
@@ -89,8 +89,10 @@ Run Reclaim-SengledHub.ps1 from an elevated Windows PowerShell 5.1+ shell.
 * -DryRun performs the same metadata-only check as CHECK-HUB-ONLY.cmd.
 * -SkipCoordinator skips both the EZSP probe and coordinator flash, but still
   performs the RTL backup/build/Bank2 flash.
-* -ForceCoordinator reflashes even when the probe reports EZSP v7 and requires
-  the explicit REFLASH confirmation; it has no effect with -SkipCoordinator.
+* -ForceCoordinator is an advanced debug switch. It programs the public
+  EmberZNet 6.4.1 / EZSP v7 image even when the probe reports EZSP v7, and
+  requires the explicit FORCE-COORDINATOR confirmation. It has no effect with
+  -SkipCoordinator. This does not restore Sengled's original firmware.
 * -NoReboot writes and verifies Bank2 but leaves Bank1 running, and therefore
   skips the post-reboot Bank2/TCP 6638 health check.
 * -KeepWork preserves temporary TFTP staging; build intermediates are always

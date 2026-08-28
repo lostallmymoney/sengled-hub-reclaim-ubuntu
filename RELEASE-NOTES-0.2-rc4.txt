@@ -6,9 +6,10 @@ Windows reclaim run on physical hardware.
 
 Highlights
 ----------
-* The normal installer preserves an already-working EZSP v7 coordinator.
-  Enter REFLASH at confirmation to deliberately exercise the full coordinator
-  flash path again.
+* The normal installer preserves an already-working EZSP v7 coordinator and
+  uses a single `RECLAIM` confirmation. The advanced `-ForceCoordinator` debug
+  switch deliberately programs the public EZSP v7 image again and requires
+  `FORCE-COORDINATOR`; it does not restore Sengled's original firmware.
 * Coordinator flashing waits for legacy EBL finalization before reset and uses
   an ASH reset handshake during the live EZSP v7 verification.
 * The Windows SquashFS process no longer extracts Linux device nodes onto NTFS.

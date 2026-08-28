@@ -63,7 +63,7 @@ hub's label before running the installer.
 
 ## Normal reclaim
 
-Extract the ZIP and double-click `RECLAIM-SENGLED-HUB.cmd`. The launcher elevates only so it can add a temporary inbound UDP rule for its built-in TFTP server. The PowerShell controller asks for the Sengled hub IPv4 address at startup and checks that the hub is reachable on TCP/8686 or TCP/23. At the destructive-operation confirmation, type `RECLAIM` for the normal run, which preserves an existing EZSP v7 coordinator, or type `REFLASH` to deliberately reflash the coordinator and exercise the entire workflow.
+Extract the ZIP and double-click `RECLAIM-SENGLED-HUB.cmd`. The launcher elevates only so it can add a temporary inbound UDP rule for its built-in TFTP server. The PowerShell controller asks for the Sengled hub IPv4 address at startup and checks that the hub is reachable on TCP/8686 or TCP/23. At the destructive-operation confirmation, type `RECLAIM` to continue. The normal run preserves an existing EZSP v7 coordinator and only flashes the coordinator when the probe says it is needed.
 
 The intended flow is:
 
@@ -184,7 +184,7 @@ The parameters are:
 | `-BackupOnly` | Validates the hub and creates the complete read-only RTL flash backup, then exits before coordinator work, builds, flash writes, or reboot. |
 | `-BootTestOnly` | Checks only that reclaimed Bank2 is active and TCP/6638 is reachable. Performs no backup, build, flash write, or reboot. |
 | `-SkipCoordinator` | Skips both the EZSP v7 probe and coordinator reflash. The RTL backup/build/Bank2 flash still proceeds. |
-| `-ForceCoordinator` | After probing, reflashes the coordinator even if it already reports EZSP v7 and requires the explicit `REFLASH` confirmation. Has no effect when combined with `-SkipCoordinator`. |
+| `-ForceCoordinator` | Advanced debug switch: after probing, programs the public EmberZNet 6.4.1 / EZSP v7 image even if the hub already reports EZSP v7. Requires the explicit `FORCE-COORDINATOR` confirmation; it does not restore Sengled's original firmware. Has no effect when combined with `-SkipCoordinator`. |
 | `-NoReboot` | Completes and verifies both Bank2 writes, then exits with Bank1 still running. It does not perform the post-reboot Bank2 or TCP/6638 health checks. |
 | `-KeepWork` | Preserves the run's `tftp\` staging directory. Build intermediates and logs are retained regardless. |
 | `-TftpPort <1024-65535>` | Changes the built-in TFTP server and temporary UDP firewall-rule port from the default `6969`. |
