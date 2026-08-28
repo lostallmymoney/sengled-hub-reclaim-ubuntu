@@ -7,6 +7,7 @@ for Home Assistant ZHA, with no Sengled cloud gateway running.
 WHAT YOU NEED
 -------------
 * 64-bit Windows 10/11 PC on the same LAN as the hub
+* A first-generation Z01-HUB or second-generation Z02-HUB Sengled Element Hub
 * Internet access on the PC when a download is actually needed:
   - EM357 EmberZNet 6.4.1 / EZSP v7 firmware, only when the coordinator must
     be flashed (this download is kept in that run's output folder)
@@ -14,6 +15,12 @@ WHAT YOU NEED
 * Do not unplug the hub while a flash stage is running.
 
 NO PuTTY, separate TFTP server, WSL, Linux VM, or Mac is required by this RC.
+
+COMPATIBILITY WARNING
+---------------------
+The third-generation Sengled hub is NOT compatible, even though it looks
+similar to the second-generation hub. Check the model printed on the product
+label. Proceed only with Z01-HUB or Z02-HUB. See README.md for reference photos.
 
 TO RUN
 ------

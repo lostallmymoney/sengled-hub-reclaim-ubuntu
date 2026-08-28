@@ -45,6 +45,22 @@ as a local Zigbee coordinator.
 
 No separate TFTP server, PuTTY, WSL, Linux VM, or Mac is required.
 
+## Compatible hub generations
+
+This installer supports the first-generation **Z01-HUB** and second-generation
+**Z02-HUB** Sengled Element Hubs shown below. Check the model printed on the
+hub's label before running the installer.
+
+| First generation — `Z01-HUB` | Second generation — `Z02-HUB` |
+| --- | --- |
+| <img src="docs/images/sengled-z01-hub-first-generation.jpg" alt="First-generation Sengled Element Hub, model Z01-HUB" width="320"> | <img src="docs/images/sengled-z02-hub-second-generation.jpg" alt="Label on second-generation Sengled Element Hub, model Z02-HUB" width="320"> |
+
+> [!WARNING]
+> The third-generation Sengled hub is **not compatible** with this project. It
+> looks similar to the second-generation hub, so appearance alone is not a safe
+> compatibility check. Proceed only when the product label says `Z01-HUB` or
+> `Z02-HUB`; otherwise use `CHECK-HUB-ONLY.cmd` and do not attempt a reclaim.
+
 ## Normal reclaim
 
 Extract the ZIP and double-click `RECLAIM-SENGLED-HUB.cmd`. The launcher elevates only so it can add a temporary inbound UDP rule for its built-in TFTP server. The PowerShell controller asks for the Sengled hub IPv4 address at startup and checks that the hub is reachable on TCP/8686 or TCP/23. At the destructive-operation confirmation, type `RECLAIM` for the normal run, which preserves an existing EZSP v7 coordinator, or type `REFLASH` to deliberately reflash the coordinator and exercise the entire workflow.
