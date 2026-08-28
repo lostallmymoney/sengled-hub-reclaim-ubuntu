@@ -479,8 +479,13 @@ function Validate-StockHub($Shell) {
 }
 
 function Stop-StockGateway($Shell) {
-    $stop = 'for n in 1 2 3; do killall sengled_startup 2>/dev/null; killall sengled_gateway_app 2>/dev/null; killall sengled_start.sh 2>/dev/null; sleep 1; done'
-    Invoke-HubCommand $Shell $stop 20 -AllowFailure -Quiet | Out-Null
+    # Some stock gateway builds ignore SIGTERM. Try a graceful stop first, then
+    # use SIGKILL only when a known Sengled UART owner is still present.
+    $stop = 'killall sengled_startup 2>/dev/null; killall sengled_gateway_app 2>/dev/null; killall sengled_start.sh 2>/dev/null; sleep 2; if ps | grep ''[s]engled_gateway_app\|[s]engled_startup\|[s]engled_start\.sh'' >/dev/null; then echo __SENGLED_FORCE_KILL__; killall -9 sengled_startup 2>/dev/null; killall -9 sengled_gateway_app 2>/dev/null; killall -9 sengled_start.sh 2>/dev/null; sleep 1; fi'
+    $result = Invoke-HubCommand $Shell $stop 20 -AllowFailure -Quiet
+    if ($result.Output -match '__SENGLED_FORCE_KILL__') {
+        Write-Warn 'Stock gateway ignored graceful termination; forced it to release /dev/ttyS1'
+    }
     $check = Invoke-HubCommand $Shell "ps | grep '[s]engled'" 10 -AllowFailure -Quiet
     if ($check.Output -match 'sengled_gateway_app|sengled_startup|sengled_start\.sh') {
         throw "Stock Sengled process is still alive and may own /dev/ttyS1: $($check.Output)"
