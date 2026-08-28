@@ -24,6 +24,8 @@ Highlights
 * TEST-BANK2-BOOT.cmd provides a non-destructive standalone health check.
 * Package checksums exclude runtime downloads, making the release manifest
   stable and independently verifiable.
+* Original project code and documentation are distributed under the MIT
+  License; downloaded third-party components retain their upstream licenses.
 
 Start here
 ----------

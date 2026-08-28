@@ -156,3 +156,9 @@ The full Windows workflow was exercised on a physical hub through coordinator re
 ## Third-party projects
 
 `squashfs-tools-ng` is by David Oberhollenzer and contributors and is GPLv3+. Its project documents official prebuilt Windows packages. The coordinator image is obtained from the public `walthowd/husbzb-firmware` repository at runtime. No Sengled stock firmware image is included in this package.
+
+## License
+
+The original code and documentation in this repository are licensed under the
+[MIT License](LICENSE). Runtime-downloaded third-party components remain under
+their respective upstream licenses; see [THIRD-PARTY.md](THIRD-PARTY.md).

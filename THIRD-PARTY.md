@@ -1,5 +1,8 @@
 # Third-party components downloaded at runtime
 
+The repository's original code is covered by the MIT License in `LICENSE`.
+That license does not replace or alter the licenses of the components below.
+
 ## squashfs-tools-ng 1.3.2 (Windows x64)
 
 Project: https://github.com/AgentD/squashfs-tools-ng
