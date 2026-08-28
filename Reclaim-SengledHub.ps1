@@ -175,7 +175,7 @@ function Invoke-HubCommand {
 function Connect-HubShell {
     param(
         [Parameter(Mandatory)][string]$ComputerName,
-        [ValidateRange(1,20)][int]$Attempts = 1,
+        [ValidateRange(1,60)][int]$Attempts = 1,
         [ValidateRange(0,10)][int]$DelaySeconds = 2,
         [switch]$ReturnNull,
         [switch]$SuppressWarnings
