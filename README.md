@@ -2,6 +2,40 @@
 
 This package automates the full reclaim path for the tested Sengled Element Hub / RTL8196E + onboard EM357 hardware layout. The end state is a local standards-based EZSP v7 coordinator exposed as TCP/6638 for Home Assistant ZHA.
 
+## Why this project exists
+
+Sengled appears to have effectively ceased supporting this ecosystem. During
+2025 and 2026, owners reported prolonged and recurring cloud outages, an app
+that could no longer log in or control devices, broken Alexa and Google Home
+integrations, and support requests that went unanswered. There has been little
+authoritative public information about the company's status, but the practical
+result for many owners has been the same: automations and daily routines stopped
+working because a remote service disappeared.
+
+The community response also made an important distinction: the Zigbee devices
+were not inherently dead. Owners successfully moved bulbs to other Zigbee
+coordinators, while the original Sengled hubs were commonly unplugged, discarded,
+or treated as useless cloud-locked hardware. That is a waste—the Element Hub
+already contains an embedded Linux system, an Ethernet interface, and a capable
+EM357 Zigbee radio.
+
+I built this project to reclaim that hardware instead of throwing it away. It
+turns an owned Sengled Element Hub into a fully local EZSP v7 coordinator for
+Home Assistant ZHA, without a Sengled account or cloud dependency. The process
+backs up the complete device, preserves Bank1 as its recovery system, constructs
+Bank2 from that individual hub's own firmware, and verifies every write. The
+larger goal is straightforward: hardware people purchased should remain useful
+after its vendor or hosted service is gone.
+
+The recurring owner experiences behind this project are documented in Reddit's
+[Sengled Home outage megathread](https://www.reddit.com/r/SengledUS/comments/1pq9d28/megathread_sengled_home_outage/),
+the discussion of the [July 2025 cloud and app failure](https://www.reddit.com/r/smarthome/comments/1mcfgn5/sengled_fully_down_again_not_even_working_through/),
+and the community thread on [salvaging devices with local Zigbee alternatives](https://www.reddit.com/r/SengledUS/comments/1mh1xaa/sengled_now_inoperative_alternatives/).
+
+This tool does not restore Sengled's cloud service, and it does not convert
+Sengled Wi-Fi bulbs. It reclaims the specifically validated Element Hub hardware
+as a local Zigbee coordinator.
+
 ## Requirements
 
 - A 64-bit Windows PC with Windows PowerShell 5.1 or later
