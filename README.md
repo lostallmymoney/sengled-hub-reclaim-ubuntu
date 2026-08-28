@@ -1,4 +1,4 @@
-# Sengled Element Hub Reclaim — One-Stop Installer 0.2-rc4
+# Sengled Element Hub Reclaim — One-Stop Installer
 
 This package automates the full reclaim path for the tested Sengled Element Hub / RTL8196E + onboard EM357 hardware layout. The end state is a local standards-based EZSP v7 coordinator exposed as TCP/6638 for Home Assistant ZHA.
 
