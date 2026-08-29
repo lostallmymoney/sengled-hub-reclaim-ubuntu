@@ -1,3 +1,0 @@
-# Preserve repository bytes exactly. SHA256SUMS.txt describes these working-tree
-# files, and several extensionless payloads are target binaries.
-* -text
