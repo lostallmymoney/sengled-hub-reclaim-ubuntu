@@ -104,6 +104,18 @@ python3 runReclaim.py --hub <hub-ip>
 Use `--dump-only`, not `--backup-only`: `--backup-only` keeps the stock
 installer's Bank1-active check and refuses a Bank2-active hub.
 
+### Network setup notes
+
+Observed on one hub; your hub may differ.
+
+- A hub that was set up on Wi-Fi in the Sengled app kept its Ethernet port
+  dead (link LED on for about 2 s at boot, then off) until it was factory
+  reset. After the reset, Ethernet worked.
+- The MAC on the label is the Wi-Fi interface (`wlan0`). The Ethernet
+  interface (`eth0`, and the `br0` bridge) is the label MAC **plus one**. Use
+  that one for a DHCP reservation when the hub is wired.
+- In the reclaimed firmware, `br0` bridges `eth0` and `wlan0`.
+
 ## After the reclaim
 
 The hub exposes an EZSP coordinator at:
