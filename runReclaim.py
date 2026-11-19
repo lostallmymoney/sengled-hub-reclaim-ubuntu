@@ -202,6 +202,12 @@ def main():
                   "No coordinator or flash writes performed." % active)
             return
 
+        # Every hub-side transfer (send_file / receive_file) runs over TFTP,
+        # so the local server must be up before the flow starts. main()'s
+        # finally block stops it.
+        ctl.tftp = TftpServer(ctl.tftp_root, args.tftp_port)
+        ctl.tftp.start()
+
         # ------------------------------------------------------------------
         # Dispatch to the single parameterized engine, which reclaims the
         # idle bank (the flow is chosen above by the active bank).
