@@ -267,10 +267,18 @@ def _run_flow(ctl, args, flow, active):
         return
 
     print("\n=== rebooting into reclaimed Bank %d ===" % target)
+    uptime_before = _uptime(ctl)
     ctl.shell.send_raw_line("reboot")
     ctl.shell.close(); ctl.shell = None
     time.sleep(4)
+    _wait_for_shell_down(ctl, 60)
     _connect_after_reboot(ctl)
+    uptime_after = _uptime(ctl)
+    if (uptime_before is not None and uptime_after is not None
+            and uptime_after >= uptime_before):
+        fatal("Hub did not restart after 'reboot' (uptime %.0fs before, %.0fs after). "
+              "Bank %d is flashed and verified; power-cycle the hub, then check "
+              "'reclaim-status' on it." % (uptime_before, uptime_after, target))
     _health_check(ctl, target)
     print("\nRECLAIM COMPLETE")
     print("Home Assistant ZHA radio URL: socket://%s:6638" % args.hub)
@@ -319,6 +327,26 @@ def _write_and_verify(ctl, exe, img, hub_path, go_path, what, target, timeout):
 # ----------------------------------------------------------------------
 # shared post-reboot helpers
 # ----------------------------------------------------------------------
+def _uptime(ctl):
+    """Return the hub's uptime in seconds, or None if it can't be read."""
+    up = ctl.run_cmd("cat /proc/uptime", 10, allow_failure=True, quiet=True)
+    try:
+        return float(up.output.split()[0])
+    except (IndexError, ValueError):
+        return None
+
+
+def _wait_for_shell_down(ctl, timeout_s):
+    """Wait for telnet to go away so we don't reconnect to the old shell."""
+    until = time.time() + timeout_s
+    while time.time() < until:
+        if not ctl.tcp_open(23, 1000):
+            return True
+        time.sleep(1)
+    print("[!] telnet on %s:23 never went down after 'reboot'" % ctl.hub)
+    return False
+
+
 def _connect_after_reboot(ctl):
     last = None
     sh = None
@@ -350,10 +378,9 @@ def _connect_after_reboot(ctl):
 def _health_check(ctl, expected_bank):
     bank = ctl.run_cmd("cat /proc/bootbank", 15, allow_failure=True, quiet=True)
     if bank.output.strip() != str(expected_bank):
-        print("[!] Hub booted bank %r; expected reclaimed Bank %d. "
-              "A cold power-cycle may be required on this bootloader."
-              % (bank.output.strip(), expected_bank))
-        return
+        fatal("Hub booted bank %r; expected reclaimed Bank %d. Bank %d is flashed "
+              "and verified; power-cycle the hub, then check 'reclaim-status' on it."
+              % (bank.output.strip(), expected_bank, expected_bank))
     marker = ctl.run_cmd("test -f /etc/reclaim-build.txt && cat /etc/reclaim-build.txt",
                          15, allow_failure=True, quiet=True)
     if marker.exit_code != 0 or "Sengled reclaimed rootfs" not in marker.output:
